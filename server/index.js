@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const { getTokenPayload } = require("./utils");
 const { users } = require("./users");
+const { isLoggedIn } = require("./middleware");
 
 const port = process.env.PORT || 3000;
 
@@ -18,11 +19,11 @@ app.post("/api/google-sso", async (req, res) => {
       users.push(user);
       res.status(201);
       res.json(user);
-      return
+      return;
     } else {
       res.status(200);
       res.json(user);
-      return
+      return;
     }
   } catch (e) {
     console.log(e);
@@ -33,6 +34,15 @@ app.post("/api/google-sso", async (req, res) => {
 
 app.get("/", (req, res) => {
   res.send("Home");
+});
+
+app.get("/api/secret", isLoggedIn, (req, res, next) => {
+  try {
+    let user = users.find((u) => u.email == req.email);
+    res.send(user);
+  } catch (e) {
+    res.sendStatus(500);
+  }
 });
 
 app.listen(port, () => {
