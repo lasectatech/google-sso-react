@@ -10,9 +10,19 @@ function App() {
   );
 
   const handleLogin = async (googleData) => {
-    console.log(googleData);
-    setLoginData({ email: "mail@mail.com" });
-    localStorage.setItem("loginData",JSON.stringify({ email: "mail@mail.com" }))
+    const res = await fetch("http://localhost:8081/api/google-sso", {
+      method: "POST",
+      body: JSON.stringify({
+        token: googleData.credential
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
+    const data = await res.json()
+    setLoginData(data);
+    localStorage.setItem("loginData",JSON.stringify(data))
   };
 
   const handleError = (result) => {
