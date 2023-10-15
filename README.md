@@ -15,7 +15,7 @@ En este tutorial vamos a implementar el login con la cuenta de google en un proy
 ## Frontend:
 
 1. Crear app en react
-2. Instalar libreria react-google-login
+2. Instalar libreria @react-oauth/google
 3. Editar App.js
 4. Definir un hook para manejar la data del login
 5. Chequear la data del login y en base a eso mostrar el contenido
